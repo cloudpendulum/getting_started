@@ -1,13 +1,15 @@
 import subprocess
 import wget
 from pathlib import Path
+import os
 
 def download_video(video_url):
-    input_path = wget.download(video_url, "videos")
+    os.makedirs("videos", exist_ok=True)
+    input_path = wget.download(video_url, out="videos/")
+    
     output_path = Path(input_path).parent / (str(Path(input_path).stem) + '.mp4')
     convert_flv_to_mp4(input_path, output_path)
     return output_path
-
 
 def convert_flv_to_mp4(input_path, output_path):
     """
